@@ -1,0 +1,51 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "commissionsight"
+version = "0.1.0"
+description = "Lightweight, zero-dependency Python client for the CommissionSight API."
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.8"
+authors = [{ name = "CommissionSight" }]
+keywords = [
+    "commissionsight",
+    "commission",
+    "insurance",
+    "carrier",
+    "api-client",
+    "sdk",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Typing :: Typed",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://commissionsight.com"
+Documentation = "https://docs.commissionsight.com"
+Repository = "https://github.com/commissionsight/python-sdk"
+Issues = "https://github.com/commissionsight/python-sdk/issues"
+
+[project.optional-dependencies]
+dev = ["pytest>=7"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["commissionsight"]
+
+[tool.hatch.build.targets.sdist]
+include = ["commissionsight", "README.md", "LICENSE", "tests"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
