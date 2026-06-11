@@ -1,0 +1,34 @@
+name: Publish to PyPI
+
+# Publishes the package to PyPI whenever you cut a GitHub Release.
+# Uses PyPI Trusted Publishing (OIDC) — no API tokens stored anywhere.
+#
+# One-time PyPI setup (https://pypi.org/manage/account/publishing/):
+#   Add a "pending publisher" with
+#     PyPI Project Name: commissionsight
+#     Owner:             commissionsight
+#     Repository name:   python-sdk
+#     Workflow name:     publish.yml
+#   Then publish a GitHub Release (e.g. tag v0.1.0) and this runs automatically.
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch: {}
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write # required for PyPI Trusted Publishing (OIDC)
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - name: Build sdist + wheel
+        run: |
+          python -m pip install --upgrade build
+          python -m build
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
