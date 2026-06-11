@@ -1,7 +1,8 @@
 # commissionsight (Python)
 
-[![PyPI](https://img.shields.io/pypi/v/commissionsight.svg)](https://pypi.org/project/commissionsight/)
-[![license](https://img.shields.io/pypi/l/commissionsight.svg)](./LICENSE)
+[![PyPI](https://img.shields.io/pypi/v/commissionsight)](https://pypi.org/project/commissionsight/)
+[![Python versions](https://img.shields.io/pypi/pyversions/commissionsight)](https://pypi.org/project/commissionsight/)
+[![License: MIT](https://img.shields.io/pypi/l/commissionsight)](./LICENSE)
 
 A lightweight, **zero-dependency** Python client for the [CommissionSight](https://commissionsight.com) API. It mirrors the surface area of the official [TypeScript SDK](https://github.com/commissionsight/sdk).
 
