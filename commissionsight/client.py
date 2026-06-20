@@ -373,7 +373,11 @@ class CommissionSightClient:
         workspace_id: Optional[str] = None,
     ) -> Dict[str, Any]:
         """Cumulative audit report across a period range: range-wide totals plus
-        ``byPeriod`` and ``byCarrier`` breakdowns. Omit ``from``/``to`` for all history."""
+        ``byPeriod`` and ``byCarrier`` breakdowns. ``from_period``/``to_period`` are
+        inclusive and both optional — omit both for all history. The response's
+        ``range.from``/``range.to`` are the actual earliest/latest periods with data,
+        while ``range.requestedFrom``/``requestedTo`` echo what was asked (``None`` if
+        omitted)."""
         return self._request(
             "GET",
             f"/reports/cumulative{query({'from': from_period, 'to': to_period, 'carrierId': carrier_id, 'workspaceId': workspace_id})}",

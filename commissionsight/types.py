@@ -288,7 +288,11 @@ class CumulativeTotals(TypedDict, total=False):
     reappeared: int
     owedEvaluated: int
     owedTotal: int
+    # Cumulative coverage: Σ(owedEvaluated) ÷ Σ(owedTotal) across the range — NOT
+    # the average of per-period coverage ratios.
     owedCoverage: float
+    # A *volume*: the sum of per-period member counts (member-months), NOT a count of
+    # distinct members. Use avgMembers / peakMembers for book-size figures.
     memberMonths: int
     avgMembers: float
     peakMembers: int
