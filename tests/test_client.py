@@ -113,6 +113,26 @@ def test_upload_file_sends_multipart_with_fields():
     assert b'filename="apr.csv"' in body and b"a,b,c" in body
 
 
+def test_create_workspace_posts_name():
+    transport, calls = _record_transport(200, {"id": "ws1", "name": "East", "isDefault": False})
+    client = CommissionSightClient("http://x/v1", token="t", transport=transport)
+    res = client.create_workspace("East")
+    assert calls["method"] == "POST"
+    assert calls["url"] == "http://x/v1/workspaces"
+    assert json.loads(calls["body"]) == {"name": "East"}
+    assert res["id"] == "ws1"
+
+
+def test_cumulative_builds_period_range_query():
+    transport, calls = _record_transport(200, {"range": {}, "totals": {}, "byPeriod": []})
+    client = CommissionSightClient("http://x/v1", transport=transport)
+    client.cumulative(from_period="2026-01", to_period="2026-05", carrier_id="car_1")
+    assert "/reports/cumulative?" in calls["url"]
+    assert "from=2026-01" in calls["url"]
+    assert "to=2026-05" in calls["url"]
+    assert "carrierId=car_1" in calls["url"]
+
+
 def test_admin_namespace_routes_under_admin():
     transport, calls = _record_transport(200, {"data": []})
     client = CommissionSightClient("http://x/v1", token="t", transport=transport)

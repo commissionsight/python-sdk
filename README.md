@@ -207,6 +207,27 @@ cs.attrition_series(months=12)             # attrition trend
 cs.data_quality("2026-05")                 # statement-quality signals (ok/watch/alert)
 ```
 
+### Cumulative audit report
+
+Roll up a whole **range** of periods into range-wide `totals` plus `byPeriod` and `byCarrier` breakdowns. Omit `from_period`/`to_period` for all history.
+
+```python
+report = cs.cumulative(from_period="2026-01", to_period="2026-05", carrier_id=carrier_id)
+print(report["totals"]["commissionOwed"], report["totals"]["memberMonths"])
+for period in report["byPeriod"]:
+    print(period["period"], period["commissionAtRisk"])
+```
+
+### Workspaces
+
+For multi-workspace accounts, list workspaces or create a new one. Pass the returned `id` as `workspace_id` to uploads and reports.
+
+```python
+ws = cs.list_workspaces()          # {"enabled": bool, "workspaces": [...]}
+east = cs.create_workspace("East") # {"id", "name", "isDefault"}
+cs.rollup("2026-05", workspace_id=east["id"])
+```
+
 ---
 
 ## Admin

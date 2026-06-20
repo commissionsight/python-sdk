@@ -365,6 +365,20 @@ class CommissionSightClient:
             f"/comparisons{query({'from': from_period, 'to': to_period, 'carrierId': carrier_id, 'workspaceId': workspace_id, 'granularity': granularity})}",
         )
 
+    def cumulative(
+        self,
+        from_period: Optional[str] = None,
+        to_period: Optional[str] = None,
+        carrier_id: Optional[str] = None,
+        workspace_id: Optional[str] = None,
+    ) -> Dict[str, Any]:
+        """Cumulative audit report across a period range: range-wide totals plus
+        ``byPeriod`` and ``byCarrier`` breakdowns. Omit ``from``/``to`` for all history."""
+        return self._request(
+            "GET",
+            f"/reports/cumulative{query({'from': from_period, 'to': to_period, 'carrierId': carrier_id, 'workspaceId': workspace_id})}",
+        )
+
     def rollup(
         self,
         period: Optional[str] = None,
@@ -464,6 +478,10 @@ class CommissionSightClient:
     def list_workspaces(self) -> Dict[str, Any]:
         """The account's workspaces (and whether multi-workspace is enabled)."""
         return self._request("GET", "/workspaces")
+
+    def create_workspace(self, name: str) -> Dict[str, Any]:
+        """Create a new workspace; returns ``{id, name, isDefault}``."""
+        return self._request("POST", "/workspaces", json_body={"name": name})
 
     def health(self) -> Dict[str, Any]:
         """Liveness probe (no auth required)."""

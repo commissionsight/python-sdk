@@ -263,6 +263,75 @@ class DataQualityReport(TypedDict, total=False):
     carriers: List[DataQualitySignal]
 
 
+# ``from`` is a Python keyword, so this TypedDict uses the functional syntax to keep
+# the real JSON key name. Index it as ``range["from"]``.
+CumulativeRange = TypedDict(
+    "CumulativeRange",
+    {
+        "from": Optional[str],
+        "to": Optional[str],
+        "requestedFrom": Optional[str],
+        "requestedTo": Optional[str],
+        "periodsCovered": int,
+    },
+    total=False,
+)
+
+
+class CumulativeTotals(TypedDict, total=False):
+    commissionOwed: float
+    commissionAtRisk: float
+    chargebackAmount: float
+    chargebackCount: int
+    red: int
+    new: int
+    reappeared: int
+    owedEvaluated: int
+    owedTotal: int
+    owedCoverage: float
+    memberMonths: int
+    avgMembers: float
+    peakMembers: int
+    owedEstimated: bool
+
+
+class CumulativePeriod(TypedDict, total=False):
+    period: str
+    year: int
+    month: int
+    memberCount: int
+    red: int
+    new: int
+    reappeared: int
+    commissionAtRisk: float
+    commissionOwed: float
+    owedEvaluated: int
+    owedTotal: int
+    owedCoverage: float
+    chargebackCount: int
+    chargebackAmount: float
+
+
+class CumulativeCarrier(TypedDict, total=False):
+    carrierId: str
+    carrierName: Optional[str]
+    commissionOwed: float
+    commissionAtRisk: float
+    chargebackAmount: float
+    owedEvaluated: int
+    owedTotal: int
+    owedCoverage: float
+    memberMonths: int
+    periodsCovered: int
+
+
+class CumulativeReport(TypedDict, total=False):
+    range: CumulativeRange
+    totals: CumulativeTotals
+    byPeriod: List[CumulativePeriod]
+    byCarrier: List[CumulativeCarrier]
+
+
 class InferredConfig(TypedDict, total=False):
     config: Any
     confidence: float

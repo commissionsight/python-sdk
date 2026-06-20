@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "commissionsight"
-version = "0.1.0"
+version = "0.2.0"
 description = "Lightweight, zero-dependency Python client for the CommissionSight API."
 readme = "README.md"
 license = { file = "LICENSE" }

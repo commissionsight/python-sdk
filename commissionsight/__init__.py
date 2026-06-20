@@ -34,6 +34,11 @@ from .types import (
     CarrierConfigEntry,
     ChargebackRow,
     ComparisonRow,
+    CumulativeCarrier,
+    CumulativePeriod,
+    CumulativeRange,
+    CumulativeReport,
+    CumulativeTotals,
     DataQualityReport,
     DataQualitySignal,
     ExpectedCommissionRate,
@@ -54,7 +59,7 @@ from .types import (
     Webhook,
 )
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 __all__ = [
     "CommissionSightClient",
@@ -85,6 +90,11 @@ __all__ = [
     "ExpectedCommissionRate",
     "Webhook",
     "AttritionPoint",
+    "CumulativeReport",
+    "CumulativeRange",
+    "CumulativeTotals",
+    "CumulativePeriod",
+    "CumulativeCarrier",
     "DataQualityReport",
     "DataQualitySignal",
     "InferredConfig",
