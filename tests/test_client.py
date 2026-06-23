@@ -133,6 +133,38 @@ def test_cumulative_builds_period_range_query():
     assert "carrierId=car_1" in calls["url"]
 
 
+def test_list_carrier_groups_gets_groups():
+    transport, calls = _record_transport(
+        200, {"data": [{"id": "grp_uhc", "name": "UHC", "slug": "uhc", "members": []}]}
+    )
+    client = CommissionSightClient("http://x/v1", token="t", transport=transport)
+    res = client.list_carrier_groups()
+    assert calls["method"] == "GET"
+    assert calls["url"] == "http://x/v1/carriers/groups"
+    assert res["data"][0]["slug"] == "uhc"
+
+
+def test_resolve_carrier_posts_multipart_with_group_and_file():
+    transport, calls = _record_transport(
+        200,
+        {
+            "groupId": "grp_uhc",
+            "ambiguous": False,
+            "best": {"carrierId": "car_1", "confidence": 0.92},
+            "ranked": [{"carrierId": "car_1", "confidence": 0.92}],
+        },
+    )
+    client = CommissionSightClient("http://x/v1", token="t", transport=transport)
+    res = client.resolve_carrier("grp_uhc", ("apr.csv", b"a,b,c\n1,2,3\n"))
+    assert calls["method"] == "POST"
+    assert calls["url"] == "http://x/v1/carriers/resolve"
+    assert calls["headers"]["content-type"].startswith("multipart/form-data; boundary=")
+    body = calls["body"]
+    assert b'name="groupId"' in body and b"grp_uhc" in body
+    assert b'filename="apr.csv"' in body and b"a,b,c" in body
+    assert res["best"]["carrierId"] == "car_1"
+
+
 def test_admin_namespace_routes_under_admin():
     transport, calls = _record_transport(200, {"data": []})
     client = CommissionSightClient("http://x/v1", token="t", transport=transport)

@@ -32,6 +32,10 @@ from .types import (
     BillingPreview,
     BillingProfile,
     CarrierConfigEntry,
+    CarrierGroup,
+    CarrierGroupMember,
+    CarrierResolveCandidate,
+    CarrierResolveResult,
     ChargebackRow,
     ComparisonRow,
     CumulativeCarrier,
@@ -52,6 +56,7 @@ from .types import (
     JourneyPolicy,
     Page,
     Pagination,
+    ProductLine,
     ResultRow,
     StabilityLevel,
     Status,
@@ -59,7 +64,7 @@ from .types import (
     Webhook,
 )
 
-__version__ = "0.2.0"
+__version__ = "0.3.0"
 
 __all__ = [
     "CommissionSightClient",
@@ -71,6 +76,7 @@ __all__ = [
     "Status",
     "Flag",
     "StabilityLevel",
+    "ProductLine",
     "Page",
     "Pagination",
     "ChargebackRow",
@@ -99,6 +105,10 @@ __all__ = [
     "DataQualitySignal",
     "InferredConfig",
     "CarrierConfigEntry",
+    "CarrierGroup",
+    "CarrierGroupMember",
+    "CarrierResolveCandidate",
+    "CarrierResolveResult",
     "AdminMetrics",
     "AdminJobDetail",
     "AdminLogEvent",

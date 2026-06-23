@@ -31,6 +31,8 @@ Flag = Literal[
 
 StabilityLevel = Literal["ok", "watch", "alert"]
 
+ProductLine = Literal["major_medical", "medicare", "ancillary"]
+
 
 class Pagination(TypedDict, total=False):
     limit: int
@@ -354,6 +356,42 @@ class CarrierConfigEntry(TypedDict, total=False):
     accountId: Optional[str]
     isActive: bool
     config: Dict[str, Any]
+
+
+class CarrierGroupMember(TypedDict, total=False):
+    id: str
+    name: str
+    slug: str
+
+
+class CarrierGroup(TypedDict, total=False):
+    """A carrier brand (e.g. "UHC") and its per-product member carriers."""
+
+    id: str
+    name: str
+    slug: str
+    members: List[CarrierGroupMember]
+
+
+class CarrierResolveCandidate(TypedDict, total=False):
+    """One scored carrier candidate from :meth:`resolve_carrier`."""
+
+    carrierId: str
+    name: Optional[str]
+    slug: Optional[str]
+    productLine: ProductLine
+    # 0..1 — how well this carrier's config fits the sample.
+    confidence: float
+    reason: str
+
+
+class CarrierResolveResult(TypedDict, total=False):
+    """Result of resolving a brand + sample file to a concrete carrier."""
+
+    groupId: str
+    ambiguous: bool
+    best: Optional[CarrierResolveCandidate]
+    ranked: List[CarrierResolveCandidate]
 
 
 # --- Admin response shapes ---

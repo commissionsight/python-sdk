@@ -171,6 +171,25 @@ cs.list_carriers(with_config=True)
 cs.list_configs(carrier_id)
 ```
 
+### Carrier brands & resolving a statement to a carrier
+
+A **carrier group** is a brand (e.g. "UHC") that fans out into several per-product member carriers (major medical, Medicare, ancillary). When you have a sample statement but aren't sure which member carrier it belongs to, `resolve_carrier` scores the brand's members by how well each one's config fits the file.
+
+```python
+# Brands and their member carriers
+groups = cs.list_carrier_groups()
+print(groups["data"])  # [{"id", "name", "slug", "members": [...]}, ...]
+
+# Resolve a brand + sample file to a concrete carrier.
+# `file` can be a path, bytes, a file object, or a (filename, content) tuple.
+res = cs.resolve_carrier("grp_uhc", "statements/sample.csv")
+if res["ambiguous"]:
+    for cand in res["ranked"]:          # too close to auto-pick — inspect candidates
+        print(cand["carrierId"], cand["productLine"], cand["confidence"], cand["reason"])
+elif res["best"]:
+    print("matched", res["best"]["carrierId"], res["best"]["confidence"])
+```
+
 ### Commission owed (expected vs. actual)
 
 ```python

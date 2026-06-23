@@ -165,6 +165,23 @@ class CommissionSightClient:
     def get_carrier(self, carrier_id: str) -> Dict[str, Any]:
         return self._request("GET", f"/carriers/{carrier_id}")
 
+    def list_carrier_groups(self) -> Dict[str, Any]:
+        """List carrier brands (e.g. "UHC") and their per-product member carriers."""
+        return self._request("GET", "/carriers/groups")
+
+    def resolve_carrier(self, group_id: str, file: FileInput) -> Dict[str, Any]:
+        """Resolve a carrier brand + a sample statement to a concrete member carrier.
+
+        Returns a :class:`CarrierResolveResult` ranking the brand's member carriers by
+        how well each one's config fits the sample. When ``ambiguous`` is true the top
+        candidates score too closely to pick automatically — inspect ``ranked``.
+        """
+        return self._request(
+            "POST",
+            "/carriers/resolve",
+            multipart=[("groupId", group_id), ("file", _file_field(file))],
+        )
+
     def list_configs(self, carrier_id: str) -> Dict[str, Any]:
         return self._request("GET", f"/carriers/{carrier_id}/configs")
 
